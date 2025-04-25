@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Details - RideRent</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+        }
+        .navbar-brand {
+            font-weight: 700;
+            color: #0d6efd;
+        }
+        .vehicle-img {
+            height: 400px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        .thumbnail {
+            height: 80px;
+            object-fit: cover;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        .thumbnail:hover, .thumbnail.active {
+            border: 2px solid #0d6efd;
+        }
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+        .section-title {
+            position: relative;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+        }
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: #0d6efd;
+        }
+        .booking-form {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .footer {
+            background-color: #212529;
+            color: white;
+            padding: 50px 0 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">RideRent</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#cars">Cars</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#bikes">Bikes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#about">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#contact">Contact</a>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <button class="btn btn-outline-primary me-2" type="button" onclick="loadPage('login.html')">Login</button>
+                    <button class="btn btn-primary" type="button" onclick="loadPage('register.html')">Register</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Vehicle Details -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <!-- Vehicle Images -->
+                    <div class="mb-4">
+                        <img id="main-image" src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" class="img-fluid vehicle-img shadow mb-3" alt="Vehicle">
+                        <div class="row">
+                            <div class="col-3">
+                                <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" class="img-fluid thumbnail active" alt="Thumbnail 1" onclick="changeImage(this.src)">
+                            </div>
+                            <div class="col-3">
+                                <img src="https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1528&q=80" class="img-fluid thumbnail" alt="Thumbnail 2" onclick="changeImage(this.src)">
+                            </div>
+                            <div class="col-3">
+                                <img src="https://images.unsplash.com/photo-1619767886558-efdc259cde1a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80" class="img-fluid thumbnail" alt="Thumbnail 3" onclick="changeImage(this.src)">
+                            </div>
+                            <div class="col-3">
+                                <img src="https://images.unsplash.com/photo-1552642986-ccb41e7059e7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80" class="img-fluid thumbnail" alt="Thumbnail 4" onclick="changeImage(this.src)">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Vehicle Information -->
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h1 id="vehicle-name">Toyota Camry</h1>
+                            <span class="badge bg-primary fs-5" id="vehicle-price">$45/day</span>
+                        </div>
+                        <div class="d-flex flex-wrap mb-4">
+                            <div class="d-flex align-items-center me-4 mb-3">
+                                <div class="feature-icon">
+                                    <i class="bi bi-people-fill fs-4 text-primary"></i>
+                                </div>
+                                <div>
+                                    <small class="text-muted d-block">Seats</small>
+                                    <span id="vehicle-seats">5 People</span>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center me-4 mb-3">
+                                <div class="feature-icon">
+                                    <i class="bi bi-gear-fill fs-4 text-primary"></i>
+                                </div>
+                                <div>
+                                    <small class="text-muted d-block">Transmission</small>
+                                    <span id="vehicle-transmission">Automatic</span>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center me-4 mb-3">
+                                <div class="feature-icon">
+                                    <i class="bi bi-fuel-pump fs-4 text-primary"></i>
+                                </div>
+                                <div>
+                                    <small class="text-muted d-block">Fuel Type</small>
+                                    <span id="vehicle-fuel">Petrol</span>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="feature-icon">
+                                    <i class="bi bi-calendar-check fs-4 text-primary"></i>
+                                </div>
+                                <div>
+                                    <small class="text-muted d-block">Year</small>
+                                    <span id="vehicle-year">2022</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="mb-4">
+                        <h4 class="section-title">Description</h4>
+                        <p id="vehicle-description">The Toyota Camry is a stylish and comfortable sedan that offers a smooth ride and excellent fuel efficiency. With its spacious interior, advanced safety features, and reliable performance, it's the perfect choice for both city driving and long road trips. This vehicle comes with a premium sound system, touchscreen infotainment, and smartphone integration for an enhanced driving experience.</p>
+                    </div>
+
+                    <!-- Features -->
+                    <div class="mb-4">
+                        <h4 class="section-title">Features</h4>
+                        <div class="row" id="vehicle-features">
+                            <div class="col-md-6 mb-2">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-check-circle-fill text-primary me-2"></i>
+                                    <span>Air Conditioning</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-check-circle-fill text-primary me-2"></i>
+                                    <span>Bluetooth Connectivity</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-check-circle-fill text-primary me-2"></i>
+                                    <span>Backup Camera</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-check-circle-fill text-primary me-2"></i>
+                                    <span>GPS Navigation</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-check-circle-fill text-primary me-2"></i>
+                                    <span>USB Charging Ports</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-check-circle-fill text-primary me-2"></i>
+                                    <span>Cruise Control</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-check-circle-fill text-primary me-2"></i>
+                                    <span>Keyless Entry</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-check-circle-fill text-primary me-2"></i>
+                                    <span>Power Windows</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reviews -->
+                    <div class="mb-4">
+                        <h4 class="section-title">Reviews</h4>
+                        <div class="mb-4">
+                            <div class="d-flex mb-3">
+                                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="rounded-circle me-3" width="50" height="50">
+                                <div>
+                                    <div class="d-flex align-items-center mb-1">
+                                        <h5 class="mb-0">John Smith</h5>
+                                        <div class="ms-3">
+                                            <i class="bi bi-star-fill text-warning"></i>
+                                            <i class="bi bi-star-fill text-warning"></i>
+                                            <i class="bi bi-star-fill text-warning"></i>
+                                            <i class="bi bi-star-fill text-warning"></i>
+                                            <i class="bi bi-star-fill text-warning"></i>
+                                        </div>
+                                    </div>
+                                    <small class="text-muted">Rented on: 15 May, 2023</small>
+                                    <p class="mt-2">Excellent car! It was clean, well-maintained, and drove smoothly. The fuel efficiency was great, and I had no issues during my rental period. Would definitely rent again.</p>
+                                </div>
+                            </div>
+                            <div class="d-flex mb-3">
+                                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User" class="rounded-circle me-3" width="50" height="50">
+                                <div>
+                                    <div class="d-flex align-items-center mb-1">
+                                        <h5 class="mb-0">Sarah Johnson</h5>
+                                        <div class="ms-3">
+                                            <i class="bi bi-star-fill text-warning"></i>
+                                            <i class="bi bi-star-fill text-warning"></i>
+                                            <i class="bi bi-star-fill text-warning"></i>
+                                            <i class="bi bi-star-fill text-warning"></i>
+                                            <i class="bi bi-star text-warning"></i>
+                                        </div>
+                                    </div>
+                                    <small class="text-muted">Rented on: 3 June, 2023</small>
+                                    <p class="mt-2">Very good experience overall. The car was in good condition and comfortable for my family trip. The only minor issue was that the GPS was a bit outdated. Otherwise, everything was perfect.</p>
+                                </div>
+                            </div>
+                            <div class="d-flex">
+                                <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="User" class="rounded-circle me-3" width="50" height="50">
+                                <div>
+                                    <div class="d-flex align-items-center mb-1">
+                                        <h5 class="mb-0">Michael Brown</h5>
+                                        <div class="ms-3">
+                                            <i class="bi bi-star-fill text-warning"></i>
+                                            <i class="bi bi-star-fill text-warning"></i>
+                                            <i class="bi bi-star-fill text-warning"></i>
+                                            <i class="bi bi-star-fill text-warning"></i>
+                                            <i class="bi bi-star-half text-warning"></i>
+                                        </div>
+                                    </div>
+                                    <small class="text-muted">Rented on: 20 June, 2023</small>
+                                    <p class="mt-2">Great car and service! The pickup and drop-off process was quick and easy. The car was fuel-efficient and perfect for city driving. I would highly recommend RideRent to anyone looking for a reliable rental service.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-outline-primary">View All Reviews</button>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <!-- Booking Form -->
+                    <div class="booking-form sticky-top" style="top: 100px;">
+                        <h4 class="mb-4">Book This Vehicle</h4>
+                        <form id="booking-form">
+                            <div class="mb-3">
+                                <label for="pickup-date" class="form-label">Pickup Date</label>
+                                <input type="date" class="form-control" id="pickup-date" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="return-date" class="form-label">Return Date</label>
+                                <input type="date" class="form-control" id="return-date" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="pickup-location" class="form-label">Pickup Location</label>
+                                <select class="form-select" id="pickup-location" required>
+                                    <option value="">Select location</option>
+                                    <option value="main-office">Main Office - 123 Rental Street</option>
+                                    <option value="downtown">Downtown Branch - 456 City Center</option>
+                                    <option value="airport">Airport Terminal - International Airport</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="return-location" class="form-label">Return Location</label>
+                                <select class="form-select" id="return-location" required>
+                                    <option value="">Select location</option>
+                                    <option value="main-office">Main Office - 123 Rental Street</option>
+                                    <option value="downtown">Downtown Branch - 456 City Center</option>
+                                    <option value="airport">Airport Terminal - International Airport</option>
+                                </select>
+                            </div>
+                            <div class="mb-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="insurance">
+                                    <label class="form-check-label" for="insurance">
+                                        Add Insurance ($10/day)
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    <h5 class="card-title">Price Summary</h5>
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span>Base Rate:</span>
+                                        <span id="base-rate">$45.00/day</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span>Number of Days:</span>
+                                        <span id="num-days">0</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span>Insurance:</span>
+                                        <span id="insurance-cost">$0.00</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span>Taxes & Fees (10%):</span>
+                                        <span id="taxes">$0.00</span>
+                                    </div>
+                                    <hr>
+                                    <div class="d-flex justify-content-between fw-bold">
+                                        <span>Total:</span>
+                                        <span id="total-cost">$0.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary">Book Now</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Similar Vehicles -->
+            <div class="mt-5">
+                <h4 class="section-title">Similar Vehicles</h4>
+                <div class="row" id="similar-vehicles">
+                    <div class="col-md-4">
+                        <div class="card vehicle-card">
+                            <img src="https://images.unsplash.com/photo-1606152421802-db97b9c7a11b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80" class="card-img-top vehicle-img" style="height: 200px;" alt="Honda Civic">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h5 class="card-title mb-0">Honda Civic</h5>
+                                    <span class="badge bg-primary">$40/day</span>
+                                </div>
+                                <p class="card-text text-muted small">
+                                    <i class="bi bi-people-fill"></i> 5 Seats
+                                    <i class="bi bi-gear-fill ms-2"></i> Automatic
+                                    <i class="bi bi-fuel-pump ms-2"></i> Petrol
+                                </p>
+                                <div class="d-grid">
+                                    <button class="btn btn-primary" onclick="viewVehicleDetails(4)">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card vehicle-card">
+                            <img src="https://images.unsplash.com/photo-1580273916550-e323be2ae537?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1528&q=80" class="card-img-top vehicle-img" style="height: 200px;" alt="BMW 3 Series">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h5 class="card-title mb-0">BMW 3 Series</h5>
+                                    <span class="badge bg-primary">$85/day</span>
+                                </div>
+                                <p class="card-text text-muted small">
+                                    <i class="bi bi-people-fill"></i> 5 Seats
+                                    <i class="bi bi-gear-fill ms-2"></i> Automatic
+                                    <i class="bi bi-fuel-pump ms-2"></i> Petrol
+                                </p>
+                                <div class="d-grid">
+                                    <button class="btn btn-primary" onclick="viewVehicleDetails(6)">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card vehicle-card">
+                            <img src="https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1469&q=80" class="card-img-top vehicle-img" style="height: 200px;" alt="Audi A4">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h5 class="card-title mb-0">Audi A4</h5>
+                                    <span class="badge bg-primary">$90/day</span>
+                                </div>
+                                <p class="card-text text-muted small">
+                                    <i class="bi bi-people-fill"></i> 5 Seats
+                                    <i class="bi bi-gear-fill ms-2"></i> Automatic
+                                    <i class="bi bi-fuel-pump ms-2"></i> Petrol
+                                </p>
+                                <div class="d-grid">
+                                    <button class="btn btn-primary" onclick="viewVehicleDetails(10)">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <h5 class="mb-3">RideRent</h5>
+                    <p>Your trusted partner for car and bike rentals. We provide high-quality vehicles at affordable prices to make your journey comfortable and enjoyable.</p>
+                    <div class="d-flex mt-3">
+                        <a href="#" class="text-white me-3"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="text-white me-3"><i class="bi bi-twitter"></i></a>
+                        <a href="#" class="text-white me-3"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="text-white me-3"><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-2 mb-4">
+                    <h5 class="mb-3">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="index.html" class="text-white text-decoration-none">Home</a></li>
+                        <li class="mb-2"><a href="index.html#cars" class="text-white text-decoration-none">Cars</a></li>
+                        <li class="mb-2"><a href="index.html#bikes" class="text-white text-decoration-none">Bikes</a></li>
+                        <li class="mb-2"><a href="index.html#about" class="text-white text-decoration-none">About Us</a></li>
+                        <li class="mb-2"><a href="index.html#contact" class="text-white text-decoration-none">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h5 class="mb-3">Our Services</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Car Rental</a></li>
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Bike Rental</a></li>
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Airport Transfer</a></li>
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Long Term Rental</a></li>
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Corporate Rental</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h5 class="mb-3">Newsletter</h5>
+                    <p>Subscribe to our newsletter to get updates on our latest offers and news.</p>
+                    <form id="newsletter-form">
+                        <div class="input-group mb-3">
+                            <input type="email" class="form-control" placeholder="Your Email" required>
+                            <button class="btn btn-primary" type="submit">Subscribe</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <hr class="mt-4 mb-4 bg-secondary">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="mb-0">&copy; 2023 RideRent. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <a href="#" class="text-white text-decoration-none me-3">Privacy Policy</a>
+                    <a href="#" class="text-white text-decoration-none me-3">Terms of Service</a>
+                    <a href="#" class="text-white text-decoration-none">FAQ</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JavaScript -->
+    <script>
+        // Function to load page content
+        function loadPage(page) {
+            window.location.href = page;
+        }
+
+        // Function to view vehicle details
+        function viewVehicleDetails(vehicleId) {
+            window.location.href = `vehicle-details.html?id=${vehicleId}`;
+        }
+
+        // Function to change main image
+        function changeImage(src) {
+            document.getElementById('main-image').src = src;
+            
+            // Update active thumbnail
+            const thumbnails = document.querySelectorAll('.thumbnail');
+            thumbnails.forEach(thumbnail => {
+                if (thumbnail.src === src) {
+                    thumbnail.classList.add('active');
+                } else {
+                    thumbnail.classList.remove('active');
+                }
+            });
+        }
+
+        // Function to calculate rental cost
+        function calculateCost() {
+            const pickupDate = new Date(document.getElementById('pickup-date').value);
+            const returnDate = new Date(document.getElementById('return-date').value);
+            const insurance = document.getElementById('insurance').checked;
+            
+            // Check if dates are valid
+            if (isNaN(pickupDate.getTime()) || isNaN(returnDate.getTime())) {
+                document.getElementById('num-days').textContent = '0';
+                document.getElementById('insurance-cost').textContent = '$0.00';
+                document.getElementById('taxes').textContent = '$0.00';
+                document.getElementById('total-cost').textContent = '$0.00';
+                return;
+            }
+            
+            // Calculate number of days
+            const timeDiff = returnDate.getTime() - pickupDate.getTime();
+            const days = Math.ceil(timeDiff / (1000 * 3600 * 24));
+            
+            if (days <= 0) {
+                alert('Return date must be after pickup date');
+                document.getElementById('return-date').value = '';
+                return;
+            }
+            
+            // Get base rate
+            const baseRateText = document.getElementById('base-rate').textContent;
+            const baseRate = parseFloat(baseRateText.replace('$', '').replace('/day', ''));
+            
+            // Calculate costs
+            const baseTotal = baseRate * days;
+            const insuranceCost = insurance ? 10 * days : 0;
+            const subtotal = baseTotal + insuranceCost;
+            const taxes = subtotal * 0.1;
+            const total = subtotal + taxes;
+            
+            // Update summary
+            document.getElementById('num-days').textContent = days;
+            document.getElementById('insurance-cost').textContent = `$${insuranceCost.toFixed(2)}`;
+            document.getElementById('taxes').textContent = `$${taxes.toFixed(2)}`;
+            document.getElementById('total-cost').textContent = `$${total.toFixed(2)}`;
+        }
+
+        // Function to fetch vehicle details
+        async function fetchVehicleDetails() {
+            try {
+                // Get vehicle ID from URL
+                const urlParams = new URLSearchParams(window.location.search);
+                const vehicleId = urlParams.get('id');
+                
+                if (!vehicleId) {
+                    window.location.href = 'index.html';
+                    return;
+                }
+                
+                // In a real implementation, this would be a call to your Google Apps Script web app
+                // For demo purposes, we'll simulate the data
+                const response = await fetch(`https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec?action=getVehicleDetails&id=${vehicleId}`);
+                const data = await response.json();
+                
+                // For demo purposes, we'll use mock data
+                const vehicles = [
+                    {
+                        id: 1,
+                        name: 'Toyota Camry',
+                        type: 'car',
+                        price: 45,
+                        brand: 'Toyota',
+                        image: 'https://images.unsplash.com/photo-1583121274602-3e2820c69888?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80',
+                        seats: 5,
+                        transmission: 'Automatic',
+                        fuel: 'Petrol',
+                        year: 2022,
+                        description: 'The Toyota Camry is a stylish and comfortable sedan that offers a smooth ride and excellent fuel efficiency. With its spacious interior, advanced safety features, and reliable performance, it\'s the perfect choice for both city driving and long road trips. This vehicle comes with a premium sound system, touchscreen infotainment, and smartphone integration for an enhanced driving experience.',
+                        features: ['Air Conditioning', 'Bluetooth Connectivity', 'Backup Camera', 'GPS Navigation', 'USB Charging Ports', 'Cruise Control', 'Keyless Entry', 'Power Windows']
+                    },
+                    {
+                        id: 2,
+                        name: 'Honda CBR',
+                        type: 'bike',
+                        price: 25,
+                        brand: 'Honda',
+                        image: 'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80',
+                        engine: '150cc',
+                        fuel: 'Petrol',
+                        category: 'Sports',
+                        year: 2021,
+                        description: 'The Honda CBR is a high-performance sports bike designed for thrill-seekers. With its powerful engine, responsive handling, and aerodynamic design, it delivers an exhilarating riding experience. This bike features advanced suspension, reliable braking system, and comfortable ergonomics for both short rides and longer journeys.',
+                        features: ['Disc Brakes', 'Digital Speedometer', 'LED Headlights', 'Tubeless Tires', 'Electric Start', 'Pass Switch', 'Adjustable Suspension', 'Sporty Design']
+                    },
+                    {
+                        id: 3,
+                        name: 'Tesla Model 3',
+                        type: 'car',
+                        price: 75,
+                        brand: 'Tesla',
+                        image: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80',
+                        seats: 5,
+                        transmission: 'Automatic',
+                        fuel: 'Electric',
+                        year: 2023,
+                        description: 'The Tesla Model 3 is a premium electric sedan that combines cutting-edge technology with sustainable transportation. With its impressive range, rapid acceleration, and zero emissions, it represents the future of driving. This vehicle features a minimalist interior with a large touchscreen display, autopilot capabilities, and over-the-air updates for continuous improvement.',
+                        features: ['Autopilot', '15" Touchscreen', 'Wireless Charging', 'Premium Sound System', 'Glass Roof', 'Keyless Entry', 'Sentry Mode', 'Climate Control']
+                    }
+                ];
+                
+                // Find vehicle by ID
+                const vehicle = vehicles.find(v => v.id == vehicleId);
+                
+                if (!vehicle) {
+                    window.location.href = 'index.html';
+                    return;
+                }
+                
+                // Update vehicle details
+                document.getElementById('vehicle-name').textContent = vehicle.name;
+                document.getElementById('vehicle-price').textContent = `$${vehicle.price}/day`;
+                document.getElementById('base-rate').textContent = `$${vehicle.price.toFixed(2)}/day`;
+                document.getElementById('main-image').src = vehicle.image;
+                document.getElementById('vehicle-description').textContent = vehicle.description;
+                document.getElementById('vehicle-year').textContent = vehicle.year;
+                
+                // Update vehicle features
+                const featuresContainer = document.getElementById('vehicle-features');
+                featuresContainer.innerHTML = '';
+                
+                vehicle.features.forEach(feature => {
+                    const featureDiv = document.createElement('div');
+                    featureDiv.className = 'col-md-6 mb-2';
+                    featureDiv.innerHTML = `
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-check-circle-fill text-primary me-2"></i>
+                            <span>${feature}</span>
+                        </div>
+                    `;
+                    featuresContainer.appendChild(featureDiv);
+                });
+                
+                // Update vehicle-specific details
+                if (vehicle.type === 'car') {
+                    document.getElementById('vehicle-seats').textContent = `${vehicle.seats} People`;
+                    document.getElementById('vehicle-transmission').textContent = vehicle.transmission;
+                    document.getElementById('vehicle-fuel').textContent = vehicle.fuel;
+                } else if (vehicle.type === 'bike') {
+                    // For bikes, we need to adjust the display
+                    const vehicleInfoSection = document.querySelector('.d-flex.flex-wrap.mb-4');
+                    vehicleInfoSection.innerHTML = `
+                        <div class="d-flex align-items-center me-4 mb-3">
+                            <div class="feature-icon">
+                                <i class="bi bi-speedometer2 fs-4 text-primary"></i>
+                            </div>
+                            <div>
+                                <small class="text-muted d-block">Engine</small>
+                                <span>${vehicle.engine}</span>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center me-4 mb-3">
+                            <div class="feature-icon">
+                                <i class="bi bi-lightning-charge fs-4 text-primary"></i>
+                            </div>
+                            <div>
+                                <small class="text-muted d-block">Category</small>
+                                <span>${vehicle.category}</span>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center me-4 mb-3">
+                            <div class="feature-icon">
+                                <i class="bi bi-fuel-pump fs-4 text-primary"></i>
+                            </div>
+                            <div>
+                                <small class="text-muted d-block">Fuel Type</small>
+                                <span>${vehicle.fuel}</span>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="feature-icon">
+                                <i class="bi bi-calendar-check fs-4 text-primary"></i>
+                            </div>
+                            <div>
+                                <small class="text-muted d-block">Year</small>
+                                <span>${vehicle.year}</span>
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                return vehicle;
+            } catch (error) {
+                console.error('Error fetching vehicle details:', error);
+                return null;
+            }
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Fetch vehicle details
+            fetchVehicleDetails();
+            
+            // Calculate cost when dates or insurance change
+            document.getElementById('pickup-date').addEventListener('change', calculateCost);
+            document.getElementById('return-date').addEventListener('change', calculateCost);
+            document.getElementById('insurance').addEventListener('change', calculateCost);
+            
+            // Booking form submission
+            document.getElementById('booking-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Validate dates
+                const pickupDate = new Date(document.getElementById('pickup-date').value);
+                const returnDate = new Date(document.getElementById('return-date').value);
+                
+                if (isNaN(pickupDate.getTime()) || isNaN(returnDate.getTime())) {
+                    alert('Please select valid dates');
+                    return;
+                }
+                
+                if (returnDate <= pickupDate) {
+                    alert('Return date must be after pickup date');
+                    return;
+                }
+                
+                // Validate locations
+                const pickupLocation = document.getElementById('pickup-location').value;
+                const returnLocation = document.getElementById('return-location').value;
+                
+                if (!pickupLocation || !returnLocation) {
+                    alert('Please select pickup and return locations');
+                    return;
+                }
+                
+                // In a real implementation, this would submit the booking data to your Google Apps Script
+                alert('Booking submitted successfully! You will receive a confirmation email shortly.');
+                
+                // Redirect to index page
+                window.location.href = 'index.html';
+            });
+            
+            // Newsletter form
+            document.getElementById('newsletter-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                // In a real implementation, this would send the form data to your Google Apps Script
+                alert('Thank you for subscribing to our newsletter!');
+                this.reset();
+            });
+        });
+    </script>
+</body>
+</html>

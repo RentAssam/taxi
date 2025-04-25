@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RideRent - Car & Bike Rental</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+        }
+        .navbar-brand {
+            font-weight: 700;
+            color: #0d6efd;
+        }
+        .hero-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 100px 0;
+        }
+        .vehicle-card {
+            transition: transform 0.3s;
+            margin-bottom: 20px;
+        }
+        .vehicle-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .vehicle-img {
+            height: 200px;
+            object-fit: cover;
+        }
+        .filter-section {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .section-title {
+            position: relative;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+        }
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: #0d6efd;
+        }
+        .footer {
+            background-color: #212529;
+            color: white;
+            padding: 50px 0 20px;
+        }
+        .btn-primary {
+            background-color: #0d6efd;
+            border-color: #0d6efd;
+        }
+        .btn-primary:hover {
+            background-color: #0b5ed7;
+            border-color: #0a58ca;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">RideRent</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#cars">Cars</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#bikes">Bikes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <button class="btn btn-outline-primary me-2" type="button" onclick="loadPage('login.html')">Login</button>
+                    <button class="btn btn-primary" type="button" onclick="loadPage('register.html')">Register</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section text-center">
+        <div class="container">
+            <h1 class="display-4 fw-bold mb-4">Find Your Perfect Ride</h1>
+            <p class="lead mb-5">Rent cars and bikes at affordable prices with our easy booking system</p>
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-body">
+                            <form id="search-form">
+                                <div class="row g-3">
+                                    <div class="col-md-4">
+                                        <select class="form-select" id="vehicle-type">
+                                            <option value="all">All Vehicles</option>
+                                            <option value="car">Cars</option>
+                                            <option value="bike">Bikes</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <input type="date" class="form-control" id="pickup-date" placeholder="Pickup Date">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <input type="date" class="form-control" id="return-date" placeholder="Return Date">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button type="submit" class="btn btn-primary w-100">Search</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="py-5">
+        <div class="container">
+            <!-- Filter Section -->
+            <div class="filter-section">
+                <div class="row">
+                    <div class="col-md-3">
+                        <label class="form-label">Price Range</label>
+                        <select class="form-select" id="price-range">
+                            <option value="all">All Prices</option>
+                            <option value="0-50">$0 - $50</option>
+                            <option value="50-100">$50 - $100</option>
+                            <option value="100+">$100+</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Brand</label>
+                        <select class="form-select" id="brand">
+                            <option value="all">All Brands</option>
+                            <!-- Will be populated dynamically -->
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Vehicle Type</label>
+                        <select class="form-select" id="type-filter">
+                            <option value="all">All Types</option>
+                            <option value="car">Cars</option>
+                            <option value="bike">Bikes</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Sort By</label>
+                        <select class="form-select" id="sort-by">
+                            <option value="price-asc">Price: Low to High</option>
+                            <option value="price-desc">Price: High to Low</option>
+                            <option value="name-asc">Name: A to Z</option>
+                            <option value="name-desc">Name: Z to A</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Featured Vehicles -->
+            <h2 class="section-title">Featured Vehicles</h2>
+            <div class="row" id="featured-vehicles">
+                <!-- Will be populated dynamically -->
+                <div class="col-md-4">
+                    <div class="card vehicle-card">
+                        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" class="card-img-top vehicle-img" alt="Toyota Camry">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h5 class="card-title mb-0">Toyota Camry</h5>
+                                <span class="badge bg-primary">$45/day</span>
+                            </div>
+                            <p class="card-text text-muted small">
+                                <i class="bi bi-people-fill"></i> 5 Seats
+                                <i class="bi bi-gear-fill ms-2"></i> Automatic
+                                <i class="bi bi-fuel-pump ms-2"></i> Petrol
+                            </p>
+                            <div class="d-grid">
+                                <button class="btn btn-primary" onclick="viewVehicleDetails(1)">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card vehicle-card">
+                        <img src="https://images.unsplash.com/photo-1558981403-c5f9899a28bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" class="card-img-top vehicle-img" alt="Honda CBR">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h5 class="card-title mb-0">Honda CBR</h5>
+                                <span class="badge bg-primary">$25/day</span>
+                            </div>
+                            <p class="card-text text-muted small">
+                                <i class="bi bi-speedometer2"></i> 150cc
+                                <i class="bi bi-fuel-pump ms-2"></i> Petrol
+                                <i class="bi bi-lightning-charge ms-2"></i> Sports
+                            </p>
+                            <div class="d-grid">
+                                <button class="btn btn-primary" onclick="viewVehicleDetails(2)">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card vehicle-card">
+                        <img src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" class="card-img-top vehicle-img" alt="Tesla Model 3">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h5 class="card-title mb-0">Tesla Model 3</h5>
+                                <span class="badge bg-primary">$75/day</span>
+                            </div>
+                            <p class="card-text text-muted small">
+                                <i class="bi bi-people-fill"></i> 5 Seats
+                                <i class="bi bi-gear-fill ms-2"></i> Automatic
+                                <i class="bi bi-battery-charging ms-2"></i> Electric
+                            </p>
+                            <div class="d-grid">
+                                <button class="btn btn-primary" onclick="viewVehicleDetails(3)">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cars Section -->
+            <h2 class="section-title mt-5" id="cars">Cars</h2>
+            <div class="row" id="cars-container">
+                <!-- Will be populated dynamically -->
+            </div>
+            <div class="text-center mt-4">
+                <button class="btn btn-outline-primary" id="load-more-cars">Load More</button>
+            </div>
+
+            <!-- Bikes Section -->
+            <h2 class="section-title mt-5" id="bikes">Bikes</h2>
+            <div class="row" id="bikes-container">
+                <!-- Will be populated dynamically -->
+            </div>
+            <div class="text-center mt-4">
+                <button class="btn btn-outline-primary" id="load-more-bikes">Load More</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="bg-light py-5">
+        <div class="container">
+            <h2 class="section-title text-center">How It Works</h2>
+            <div class="row mt-5">
+                <div class="col-md-4 text-center mb-4">
+                    <div class="bg-white rounded-circle mx-auto d-flex align-items-center justify-content-center" style="width: 100px; height: 100px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                        <i class="bi bi-search fs-1 text-primary"></i>
+                    </div>
+                    <h4 class="mt-4">Search & Select</h4>
+                    <p class="text-muted">Browse our wide range of cars and bikes, and select the one that fits your needs.</p>
+                </div>
+                <div class="col-md-4 text-center mb-4">
+                    <div class="bg-white rounded-circle mx-auto d-flex align-items-center justify-content-center" style="width: 100px; height: 100px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                        <i class="bi bi-calendar-check fs-1 text-primary"></i>
+                    </div>
+                    <h4 class="mt-4">Book & Pay</h4>
+                    <p class="text-muted">Choose your dates, complete the booking form, and make a secure payment.</p>
+                </div>
+                <div class="col-md-4 text-center mb-4">
+                    <div class="bg-white rounded-circle mx-auto d-flex align-items-center justify-content-center" style="width: 100px; height: 100px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                        <i class="bi bi-car-front fs-1 text-primary"></i>
+                    </div>
+                    <h4 class="mt-4">Enjoy Your Ride</h4>
+                    <p class="text-muted">Pick up your vehicle and enjoy your journey with our well-maintained vehicles.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us -->
+    <section class="py-5" id="about">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h2 class="section-title">About RideRent</h2>
+                    <p>RideRent is a premier car and bike rental service dedicated to providing high-quality vehicles at affordable prices. With a wide range of options from economy cars to luxury vehicles, and from scooters to high-performance motorcycles, we have something for everyone.</p>
+                    <p>Our mission is to make transportation accessible, convenient, and enjoyable for all our customers. Whether you need a vehicle for a day trip, a weekend getaway, or an extended vacation, we've got you covered.</p>
+                    <p>All our vehicles are regularly serviced and maintained to ensure your safety and comfort during your rental period.</p>
+                    <button class="btn btn-primary mt-3">Learn More</button>
+                </div>
+                <div class="col-md-6">
+                    <img src="https://images.unsplash.com/photo-1560343776-97e7d202ff0e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80" alt="About RideRent" class="img-fluid rounded shadow">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="bg-light py-5">
+        <div class="container">
+            <h2 class="section-title text-center">What Our Customers Say</h2>
+            <div class="row mt-5">
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <i class="bi bi-star-fill text-warning"></i>
+                                <i class="bi bi-star-fill text-warning"></i>
+                                <i class="bi bi-star-fill text-warning"></i>
+                                <i class="bi bi-star-fill text-warning"></i>
+                                <i class="bi bi-star-fill text-warning"></i>
+                            </div>
+                            <p class="card-text">"Great service! The car was in excellent condition and the rental process was smooth and hassle-free. Will definitely use RideRent again."</p>
+                            <div class="d-flex align-items-center mt-4">
+                                <div class="flex-shrink-0">
+                                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Customer" class="rounded-circle" width="50">
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <h6 class="mb-0">John Smith</h6>
+                                    <small class="text-muted">Business Traveler</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <i class="bi bi-star-fill text-warning"></i>
+                                <i class="bi bi-star-fill text-warning"></i>
+                                <i class="bi bi-star-fill text-warning"></i>
+                                <i class="bi bi-star-fill text-warning"></i>
+                                <i class="bi bi-star-half text-warning"></i>
+                            </div>
+                            <p class="card-text">"I rented a bike for my weekend trip and it was a fantastic experience. The bike was well-maintained and the staff was very helpful. Highly recommended!"</p>
+                            <div class="d-flex align-items-center mt-4">
+                                <div class="flex-shrink-0">
+                                    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Customer" class="rounded-circle" width="50">
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <h6 class="mb-0">Sarah Johnson</h6>
+                                    <small class="text-muted">Adventure Enthusiast</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <i class="bi bi-star-fill text-warning"></i>
+                                <i class="bi bi-star-fill text-warning"></i>
+                                <i class="bi bi-star-fill text-warning"></i>
+                                <i class="bi bi-star-fill text-warning"></i>
+                                <i class="bi bi-star text-warning"></i>
+                            </div>
+                            <p class="card-text">"Affordable prices and excellent customer service. The Tesla I rented was amazing and made my trip special. Will be coming back for sure!"</p>
+                            <div class="d-flex align-items-center mt-4">
+                                <div class="flex-shrink-0">
+                                    <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="Customer" class="rounded-circle" width="50">
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <h6 class="mb-0">Michael Brown</h6>
+                                    <small class="text-muted">Family Vacationer</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="py-5" id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h2 class="section-title">Contact Us</h2>
+                    <p class="mb-4">Have questions or need assistance? Reach out to us and we'll get back to you as soon as possible.</p>
+                    <form id="contact-form">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="subject" class="form-label">Subject</label>
+                            <input type="text" class="form-control" id="subject" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="message" class="form-label">Message</label>
+                            <textarea class="form-control" id="message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                    </form>
+                </div>
+                <div class="col-md-6">
+                    <div class="bg-light p-4 h-100 rounded">
+                        <h4 class="mb-4">Our Information</h4>
+                        <div class="d-flex mb-3">
+                            <i class="bi bi-geo-alt-fill text-primary me-3 fs-4"></i>
+                            <div>
+                                <h5 class="mb-1">Address</h5>
+                                <p class="text-muted">123 Rental Street, City, Country</p>
+                            </div>
+                        </div>
+                        <div class="d-flex mb-3">
+                            <i class="bi bi-telephone-fill text-primary me-3 fs-4"></i>
+                            <div>
+                                <h5 class="mb-1">Phone</h5>
+                                <p class="text-muted">+1 (123) 456-7890</p>
+                            </div>
+                        </div>
+                        <div class="d-flex mb-3">
+                            <i class="bi bi-envelope-fill text-primary me-3 fs-4"></i>
+                            <div>
+                                <h5 class="mb-1">Email</h5>
+                                <p class="text-muted">info@riderent.com</p>
+                            </div>
+                        </div>
+                        <div class="d-flex mb-3">
+                            <i class="bi bi-clock-fill text-primary me-3 fs-4"></i>
+                            <div>
+                                <h5 class="mb-1">Working Hours</h5>
+                                <p class="text-muted">Monday - Friday: 9AM - 6PM<br>Saturday: 10AM - 4PM<br>Sunday: Closed</p>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <h5 class="mb-3">Follow Us</h5>
+                            <div class="d-flex">
+                                <a href="#" class="text-primary me-3 fs-4"><i class="bi bi-facebook"></i></a>
+                                <a href="#" class="text-primary me-3 fs-4"><i class="bi bi-twitter"></i></a>
+                                <a href="#" class="text-primary me-3 fs-4"><i class="bi bi-instagram"></i></a>
+                                <a href="#" class="text-primary me-3 fs-4"><i class="bi bi-linkedin"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <h5 class="mb-3">RideRent</h5>
+                    <p>Your trusted partner for car and bike rentals. We provide high-quality vehicles at affordable prices to make your journey comfortable and enjoyable.</p>
+                    <div class="d-flex mt-3">
+                        <a href="#" class="text-white me-3"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="text-white me-3"><i class="bi bi-twitter"></i></a>
+                        <a href="#" class="text-white me-3"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="text-white me-3"><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-2 mb-4">
+                    <h5 class="mb-3">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="index.html" class="text-white text-decoration-none">Home</a></li>
+                        <li class="mb-2"><a href="#cars" class="text-white text-decoration-none">Cars</a></li>
+                        <li class="mb-2"><a href="#bikes" class="text-white text-decoration-none">Bikes</a></li>
+                        <li class="mb-2"><a href="#about" class="text-white text-decoration-none">About Us</a></li>
+                        <li class="mb-2"><a href="#contact" class="text-white text-decoration-none">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h5 class="mb-3">Our Services</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Car Rental</a></li>
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Bike Rental</a></li>
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Airport Transfer</a></li>
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Long Term Rental</a></li>
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Corporate Rental</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h5 class="mb-3">Newsletter</h5>
+                    <p>Subscribe to our newsletter to get updates on our latest offers and news.</p>
+                    <form id="newsletter-form">
+                        <div class="input-group mb-3">
+                            <input type="email" class="form-control" placeholder="Your Email" required>
+                            <button class="btn btn-primary" type="submit">Subscribe</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <hr class="mt-4 mb-4 bg-secondary">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="mb-0">&copy; 2023 RideRent. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <a href="#" class="text-white text-decoration-none me-3">Privacy Policy</a>
+                    <a href="#" class="text-white text-decoration-none me-3">Terms of Service</a>
+                    <a href="#" class="text-white text-decoration-none">FAQ</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JavaScript -->
+    <script>
+        // Global variables
+        let vehicles = [];
+        let displayedCars = 0;
+        let displayedBikes = 0;
+        const carsPerPage = 6;
+        const bikesPerPage = 6;
+
+        // Function to load page content
+        function loadPage(page) {
+            window.location.href = page;
+        }
+
+        // Function to view vehicle details
+        function viewVehicleDetails(vehicleId) {
+            window.location.href = `vehicle-details.html?id=${vehicleId}`;
+        }
+
+        // Function to fetch vehicles from Google Sheets via Google Apps Script
+        async function fetchVehicles() {
+            try {
+                // In a real implementation, this would be a call to your Google Apps Script web app
+                // For demo purposes, we'll simulate the data
+                const response = await fetch('https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec?action=getVehicles');
+                const data = await response.json();
+                
+                // For demo purposes, we'll use mock data
+                vehicles = [
+                    {
+                        id: 1,
+                        name: 'Toyota Camry',
+                        type: 'car',
+                        price: 45,
+                        brand: 'Toyota',
+                        image: 'https://images.unsplash.com/photo-1583121274602-3e2820c69888?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80',
+                        seats: 5,
+                        transmission: 'Automatic',
+                        fuel: 'Petrol',
+                        featured: true
+                    },
+                    {
+                        id: 2,
+                        name: 'Honda CBR',
+                        type: 'bike',
+                        price: 25,
+                        brand: 'Honda',
+                        image: 'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80',
+                        engine: '150cc',
+                        fuel: 'Petrol',
+                        category: 'Sports',
+                        featured: true
+                    },
+                    {
+                        id: 3,
+                        name: 'Tesla Model 3',
+                        type: 'car',
+                        price: 75,
+                        brand: 'Tesla',
+                        image: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80',
+                        seats: 5,
+                        transmission: 'Automatic',
+                        fuel: 'Electric',
+                        featured: true
+                    },
+                    {
+                        id: 4,
+                        name: 'Honda Civic',
+                        type: 'car',
+                        price: 40,
+                        brand: 'Honda',
+                        image: 'https://images.unsplash.com/photo-1606152421802-db97b9c7a11b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80',
+                        seats: 5,
+                        transmission: 'Automatic',
+                        fuel: 'Petrol',
+                        featured: false
+                    },
+                    {
+                        id: 5,
+                        name: 'Yamaha R15',
+                        type: 'bike',
+                        price: 20,
+                        brand: 'Yamaha',
+                        image: 'https://images.unsplash.com/photo-1599819811279-d5ad9cccf838?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80',
+                        engine: '150cc',
+                        fuel: 'Petrol',
+                        category: 'Sports',
+                        featured: false
+                    },
+                    {
+                        id: 6,
+                        name: 'BMW 3 Series',
+                        type: 'car',
+                        price: 85,
+                        brand: 'BMW',
+                        image: 'https://images.unsplash.com/photo-1580273916550-e323be2ae537?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1528&q=80',
+                        seats: 5,
+                        transmission: 'Automatic',
+                        fuel: 'Petrol',
+                        featured: false
+                    },
+                    {
+                        id: 7,
+                        name: 'Royal Enfield Classic',
+                        type: 'bike',
+                        price: 30,
+                        brand: 'Royal Enfield',
+                        image: 'https://images.unsplash.com/photo-1615172282427-9a57ef2d142e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80',
+                        engine: '350cc',
+                        fuel: 'Petrol',
+                        category: 'Cruiser',
+                        featured: false
+                    },
+                    {
+                        id: 8,
+                        name: 'Mercedes-Benz E-Class',
+                        type: 'car',
+                        price: 95,
+                        brand: 'Mercedes-Benz',
+                        image: 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80',
+                        seats: 5,
+                        transmission: 'Automatic',
+                        fuel: 'Petrol',
+                        featured: false
+                    },
+                    {
+                        id: 9,
+                        name: 'Ducati Panigale',
+                        type: 'bike',
+                        price: 50,
+                        brand: 'Ducati',
+                        image: 'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80',
+                        engine: '1000cc',
+                        fuel: 'Petrol',
+                        category: 'Sports',
+                        featured: false
+                    },
+                    {
+                        id: 10,
+                        name: 'Audi A4',
+                        type: 'car',
+                        price: 90,
+                        brand: 'Audi',
+                        image: 'https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1469&q=80',
+                        seats: 5,
+                        transmission: 'Automatic',
+                        fuel: 'Petrol',
+                        featured: false
+                    }
+                ];
+
+                // Populate brand filter
+                populateBrandFilter();
+                
+                // Display vehicles
+                displayVehicles();
+                
+                return vehicles;
+            } catch (error) {
+                console.error('Error fetching vehicles:', error);
+                return [];
+            }
+        }
+
+        // Function to populate brand filter
+        function populateBrandFilter() {
+            const brandSelect = document.getElementById('brand');
+            const brands = [...new Set(vehicles.map(vehicle => vehicle.brand))];
+            
+            brands.forEach(brand => {
+                const option = document.createElement('option');
+                option.value = brand;
+                option.textContent = brand;
+                brandSelect.appendChild(option);
+            });
+        }
+
+        // Function to display vehicles
+        function displayVehicles() {
+            // Display featured vehicles
+            const featuredVehicles = vehicles.filter(vehicle => vehicle.featured);
+            const featuredContainer = document.getElementById('featured-vehicles');
+            featuredContainer.innerHTML = '';
+            
+            featuredVehicles.forEach(vehicle => {
+                featuredContainer.appendChild(createVehicleCard(vehicle));
+            });
+            
+            // Display cars
+            loadMoreCars();
+            
+            // Display bikes
+            loadMoreBikes();
+        }
+
+        // Function to create vehicle card
+        function createVehicleCard(vehicle) {
+            const col = document.createElement('div');
+            col.className = 'col-md-4';
+            
+            let vehicleDetails = '';
+            if (vehicle.type === 'car') {
+                vehicleDetails = `
+                    <i class="bi bi-people-fill"></i> ${vehicle.seats} Seats
+                    <i class="bi bi-gear-fill ms-2"></i> ${vehicle.transmission}
+                    <i class="bi bi-fuel-pump ms-2"></i> ${vehicle.fuel}
+                `;
+            } else {
+                vehicleDetails = `
+                    <i class="bi bi-speedometer2"></i> ${vehicle.engine}
+                    <i class="bi bi-fuel-pump ms-2"></i> ${vehicle.fuel}
+                    <i class="bi bi-lightning-charge ms-2"></i> ${vehicle.category}
+                `;
+            }
+            
+            col.innerHTML = `
+                <div class="card vehicle-card">
+                    <img src="${vehicle.image}" class="card-img-top vehicle-img" alt="${vehicle.name}">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h5 class="card-title mb-0">${vehicle.name}</h5>
+                            <span class="badge bg-primary">$${vehicle.price}/day</span>
+                        </div>
+                        <p class="card-text text-muted small">
+                            ${vehicleDetails}
+                        </p>
+                        <div class="d-grid">
+                            <button class="btn btn-primary" onclick="viewVehicleDetails(${vehicle.id})">View Details</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            return col;
+        }
+
+        // Function to load more cars
+        function loadMoreCars() {
+            const carsContainer = document.getElementById('cars-container');
+            const cars = vehicles.filter(vehicle => vehicle.type === 'car' && !vehicle.featured);
+            
+            const carsToDisplay = cars.slice(displayedCars, displayedCars + carsPerPage);
+            carsToDisplay.forEach(car => {
+                carsContainer.appendChild(createVehicleCard(car));
+            });
+            
+            displayedCars += carsToDisplay.length;
+            
+            // Hide load more button if all cars are displayed
+            if (displayedCars >= cars.length) {
+                document.getElementById('load-more-cars').style.display = 'none';
+            }
+        }
+
+        // Function to load more bikes
+        function loadMoreBikes() {
+            const bikesContainer = document.getElementById('bikes-container');
+            const bikes = vehicles.filter(vehicle => vehicle.type === 'bike' && !vehicle.featured);
+            
+            const bikesToDisplay = bikes.slice(displayedBikes, displayedBikes + bikesPerPage);
+            bikesToDisplay.forEach(bike => {
+                bikesContainer.appendChild(createVehicleCard(bike));
+            });
+            
+            displayedBikes += bikesToDisplay.length;
+            
+            // Hide load more button if all bikes are displayed
+            if (displayedBikes >= bikes.length) {
+                document.getElementById('load-more-bikes').style.display = 'none';
+            }
+        }
+
+        // Function to filter vehicles
+        function filterVehicles() {
+            const priceRange = document.getElementById('price-range').value;
+            const brand = document.getElementById('brand').value;
+            const type = document.getElementById('type-filter').value;
+            const sortBy = document.getElementById('sort-by').value;
+            
+            // Reset displayed counts
+            displayedCars = 0;
+            displayedBikes = 0;
+            
+            // Clear containers
+            document.getElementById('cars-container').innerHTML = '';
+            document.getElementById('bikes-container').innerHTML = '';
+            
+            // Show load more buttons
+            document.getElementById('load-more-cars').style.display = 'block';
+            document.getElementById('load-more-bikes').style.display = 'block';
+            
+            // Apply filters
+            let filteredVehicles = [...vehicles];
+            
+            // Filter by price range
+            if (priceRange !== 'all') {
+                const [min, max] = priceRange.split('-');
+                if (max) {
+                    filteredVehicles = filteredVehicles.filter(vehicle => vehicle.price >= parseInt(min) && vehicle.price <= parseInt(max));
+                } else {
+                    filteredVehicles = filteredVehicles.filter(vehicle => vehicle.price >= parseInt(min));
+                }
+            }
+            
+            // Filter by brand
+            if (brand !== 'all') {
+                filteredVehicles = filteredVehicles.filter(vehicle => vehicle.brand === brand);
+            }
+            
+            // Filter by type
+            if (type !== 'all') {
+                filteredVehicles = filteredVehicles.filter(vehicle => vehicle.type === type);
+            }
+            
+            // Sort vehicles
+            switch (sortBy) {
+                case 'price-asc':
+                    filteredVehicles.sort((a, b) => a.price - b.price);
+                    break;
+                case 'price-desc':
+                    filteredVehicles.sort((a, b) => b.price - a.price);
+                    break;
+                case 'name-asc':
+                    filteredVehicles.sort((a, b) => a.name.localeCompare(b.name));
+                    break;
+                case 'name-desc':
+                    filteredVehicles.sort((a, b) => b.name.localeCompare(a.name));
+                    break;
+            }
+            
+            // Update global vehicles array
+            vehicles = filteredVehicles;
+            
+            // Display vehicles
+            displayVehicles();
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Fetch vehicles
+            fetchVehicles();
+            
+            // Load more buttons
+            document.getElementById('load-more-cars').addEventListener('click', loadMoreCars);
+            document.getElementById('load-more-bikes').addEventListener('click', loadMoreBikes);
+            
+            // Filter form
+            document.getElementById('price-range').addEventListener('change', filterVehicles);
+            document.getElementById('brand').addEventListener('change', filterVehicles);
+            document.getElementById('type-filter').addEventListener('change', filterVehicles);
+            document.getElementById('sort-by').addEventListener('change', filterVehicles);
+            
+            // Search form
+            document.getElementById('search-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const vehicleType = document.getElementById('vehicle-type').value;
+                const pickupDate = document.getElementById('pickup-date').value;
+                const returnDate = document.getElementById('return-date').value;
+                
+                // Update type filter
+                document.getElementById('type-filter').value = vehicleType;
+                
+                // Apply filters
+                filterVehicles();
+                
+                // Scroll to vehicles section
+                document.getElementById(vehicleType === 'car' ? 'cars' : (vehicleType === 'bike' ? 'bikes' : 'featured-vehicles')).scrollIntoView({ behavior: 'smooth' });
+            });
+            
+            // Contact form
+            document.getElementById('contact-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                // In a real implementation, this would send the form data to your Google Apps Script
+                alert('Thank you for your message! We will get back to you soon.');
+                this.reset();
+            });
+            
+            // Newsletter form
+            document.getElementById('newsletter-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                // In a real implementation, this would send the form data to your Google Apps Script
+                alert('Thank you for subscribing to our newsletter!');
+                this.reset();
+            });
+        });
+    </script>
+</body>
+</html>
